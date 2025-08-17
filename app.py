@@ -1,11 +1,15 @@
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy 
-from flask_migrate import Migrate        
-import os
+from helpers.application import app, api
+from helpers.CORS import cors
 
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'sqlite:///sistemadedieta.db')
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+from helpers.database import db
 
-db = SQLAlchemy(app)
-migrate = Migrate(app, db)
+from models.Pessoa import Pessoa
+from models.Usuario import Usuario
+from models.Nutricionista import Nutricionista
+from models.Dieta import Dieta
+cors.init_app(app)
+
+
+
+with app.app_context():
+    db.create_all()
