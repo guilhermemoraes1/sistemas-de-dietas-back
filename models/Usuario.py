@@ -1,13 +1,9 @@
 from flask_restful import fields as flaskFields
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import Integer, ForeignKey
-
+from marshmallow import Schema, fields, validate
 
 from models.Pessoa import Pessoa, pessoa_fields
-
-
-
-
 
 usuario_fields = {
     "id": flaskFields.Integer,
@@ -39,3 +35,10 @@ class Usuario(Pessoa):
 
     def __repr__(self):
         return f'<Usuario {self.nome}>'
+
+class UsuarioSchema(Schema):
+    id = fields.Int(dump_only=True)
+    nome = fields.String(required=True, validate=validate.Length(min=2, max=100))
+    email = fields.Email(required=True)
+    nutricionista_id = fields.Int(allow_none=True)
+    

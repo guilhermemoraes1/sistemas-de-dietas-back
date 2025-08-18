@@ -1,6 +1,7 @@
 from flask_restful import fields as flaskFields
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import String, Integer, Float, ForeignKey
+from marshmallow import Schema, fields, validate
 
 from app import db
 
@@ -34,3 +35,14 @@ class Dieta(db.Model):
     
     def __repr__(self):
         return f'<Dieta {self.nome_dieta}>'
+
+
+class PessoaMiniSchema(Schema):
+    id = fields.Int()
+
+class DietaSchema(Schema):
+    id = fields.Int(dump_only=True)
+    nome_dieta = fields.String(required=True, validate=validate.Length(min=2, max=100))
+    calorias_diarias = fields.String(required=True)
+    gerador_id = fields.Int(required=True, load_only=True)
+    gerador = fields.Nested(PessoaMiniSchema, dump_only=True)
