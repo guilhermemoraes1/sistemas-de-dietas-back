@@ -1,5 +1,7 @@
 from flask_restful import Resource
 from flask import request
+from marshmallow import ValidationError
+
 from models.Usuario import Usuario, UsuarioSchema
 from helpers.database import db
 

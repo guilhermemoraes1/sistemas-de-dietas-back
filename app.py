@@ -8,10 +8,14 @@ from models.Usuario import Usuario
 from models.Nutricionista import Nutricionista
 from models.Dieta import Dieta
 from resources.UsuarioResource import UsuarioResource
+from resources.NutricionistaResource import NutricionistaResource
+from resources.DietaResource import DietaResource
 
 cors.init_app(app)
 
 api.add_resource(UsuarioResource, '/usuarios')
+api.add_resource(NutricionistaResource, '/nutricionistas')
+api.add_resource(DietaResource, '/dietas')
 
 with app.app_context():
     db.create_all()
