@@ -2,6 +2,8 @@ from flask_restful import Resource
 from flask import request
 from marshmallow import ValidationError
 
+from helpers.logging import logger
+
 from models.Usuario import Usuario, UsuarioSchema
 from helpers.database import db
 
@@ -10,10 +12,12 @@ usuarios_schema = UsuarioSchema(many=True)
 
 class UsuarioResource(Resource):
     def get(self):
+        logger.info("GET - Usuarios")
         usuarios = Usuario.query.all()
         return usuarios_schema.dump(usuarios), 200
 
     def post(self):
+        logger.info("POST - Usuarios")
         data = request.get_json()
         try:
             validated = usuario_schema.load(data)
