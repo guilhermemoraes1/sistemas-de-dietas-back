@@ -8,8 +8,8 @@ from helpers.logging import logger
 from models.Nutricionista import Nutricionista, NutricionistaSchema
 from helpers.database import db
 
-nutricionista_schema = NutricionistaSchema()
-nutricionistas_schema = NutricionistaSchema(many=True)
+nutricionista_schema = NutricionistaSchema() #cria um schema para um único objeto.
+nutricionistas_schema = NutricionistaSchema(many=True) #cria um schema para uma lista (coleção) de objetos.
 
 class NutricionistaResource(Resource):
 
@@ -44,7 +44,7 @@ class NutricionistaResource(Resource):
 class NutricionistasResource(Resource):
      
      def get(self, id):
-        logger.info(f"GET - Nutricionista id={id}")
+        logger.info(f"GET por ID - Nutricionista id={id}")
         nutricionista = Nutricionista.query.get_or_404(id, description="Nutricionista não encontrado")
         return nutricionista_schema.dump(nutricionista), 200
      
