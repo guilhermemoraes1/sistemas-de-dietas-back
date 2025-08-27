@@ -20,9 +20,9 @@ class Usuario(Pessoa):
     id: Mapped[int] = mapped_column(
         ForeignKey("tb_pessoa.id"), primary_key=True)
     # Relacionamento de "muitos para um" com Nutricionista
-    nutricionista_id: Mapped[int]= mapped_column(Integer, ForeignKey('tb_nutricionistas.id'), nullable=True)
+    nutricionista_id: Mapped[int]= mapped_column(Integer, ForeignKey('tb_nutricionistas.id', ondelete='SET NULL'), nullable=True)
     
-    nutricionista = relationship('Nutricionista', back_populates='usuarios', lazy=True, foreign_keys=[nutricionista_id])
+    nutricionista = relationship('Nutricionista', back_populates='usuarios', lazy=True, foreign_keys=[nutricionista_id], passive_deletes=True)
 
     __mapper_args__ = {
         'polymorphic_identity': 'usuario',

@@ -72,3 +72,16 @@ class NutricionistasResource(Resource):
             return {"error": "Dados inválidos."}, 400
 
         return nutricionista_schema.dump(nutricionista), 200
+     
+     def delete(self, id):
+        logger.info(f"DELETE - Nutricionista id={id}")
+        nutricionista = Nutricionista.query.get_or_404(id, description="Nutricionista não encontrado")
+
+        db.session.delete(nutricionista)
+        try:
+            db.session.commit()
+        except IntegrityError:
+            db.session.rollback()
+            return {"error": "Falha de integridade ao remover."}, 409
+
+        return {"message": "Nutricionista removido. Dietas apagadas e usuários desvinculados."}, 200

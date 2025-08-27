@@ -23,9 +23,9 @@ class Dieta(db.Model):
     calorias_diarias:Mapped[float] = mapped_column(Float, nullable=False)
     
     # aponta pro ID da pessoa (usuario ou nutricionista) que a gerou
-    gerador_id: Mapped[int]= mapped_column(Integer, ForeignKey('tb_pessoa.id'))
+    gerador_id: Mapped[int]= mapped_column(Integer, ForeignKey('tb_pessoa.id', ondelete='CASCADE'))
 
-    gerador = relationship('Pessoa', back_populates='dietas_geradas')
+    gerador = relationship('Pessoa', back_populates='dietas_geradas', passive_deletes=True)
 
     def __init__(self, nome_dieta:str, calorias_diarias:float, gerador_id:int):
         self.nome_dieta = nome_dieta

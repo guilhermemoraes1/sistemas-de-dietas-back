@@ -28,7 +28,7 @@ class Nutricionista(Pessoa):
     crn :Mapped[str] = mapped_column(String(20), unique=True, nullable=False)
     
     # Relacionamento de "um para muitos" com Usuario
-    usuarios = relationship('Usuario', back_populates='nutricionista', lazy=True, foreign_keys='Usuario.nutricionista_id' )
+    usuarios = relationship('Usuario', back_populates='nutricionista', lazy=True, foreign_keys='Usuario.nutricionista_id', passive_deletes=True )
 
     __mapper_args__ = {
         'polymorphic_identity': 'nutricionista',

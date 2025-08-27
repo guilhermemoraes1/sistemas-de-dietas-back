@@ -26,7 +26,7 @@ class Pessoa(db.Model):
         "polymorphic_on": "tipo",
     }
     # Adiciona o relacionamento de um para muitos com a classe Dieta
-    dietas_geradas = relationship('Dieta', back_populates='gerador', lazy=True)
+    dietas_geradas = relationship('Dieta', back_populates='gerador', lazy=True, passive_deletes=True)
 
     def __init__(self, nome:str, email:str):
         self.nome = nome

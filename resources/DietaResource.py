@@ -60,4 +60,17 @@ class DietasResource(Resource):
             return {"error": "Dados inválidos."}, 400
 
         return dieta_schema.dump(dieta), 200
+    
+    def delete(self, id):
+        logger.info(f"DELETE - Dieta id={id}")
+        dieta = Dieta.query.get_or_404(id, description="Dieta não encontrada")
+
+        db.session.delete(dieta)
+        try:
+            db.session.commit()
+        except IntegrityError:
+            db.session.rollback()
+            return {"error": "Falha de integridade ao remover."}, 409
+
+        return {"message": "Dieta removida com sucesso."}, 200
 

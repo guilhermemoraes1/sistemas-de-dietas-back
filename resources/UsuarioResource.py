@@ -61,3 +61,16 @@ class UsuariosResource(Resource):
             return {"error": "Dados inválidos."}, 400
         
         return usuario_schema.dump(usuario), 200
+    
+    def delete(self, id):
+        logger.info(f"DELETE - Usuario id={id}")
+        usuario = Usuario.query.get_or_404(id, description="Usuário não encontrado")
+
+        db.session.delete(usuario)
+        try:
+            db.session.commit()
+        except IntegrityError:
+            db.session.rollback()
+            return {"error": "Falha de integridade ao remover."}, 409
+
+        return {"message": "Usuário removido. Dietas geradas por ele foram apagadas."}, 200
